@@ -1,0 +1,5 @@
+# vi mode
+set -o vi
+
+[[ $- == *i* ]] && source ~/.bash_profile 
+
