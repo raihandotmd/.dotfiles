@@ -68,4 +68,22 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 
+-- Define the key mapping for 'gv' in normal mode
+keymap.set("n", "<leader>gh", function()
+	-- Open a vertical split window
+	vim.api.nvim_command("vsplit")
+
+	-- Get the definition of the symbol under the cursor using LSP
+	local _, location = vim.lsp.buf.definition()
+
+	-- Check if a location was found
+	if location then
+		-- Open the definition in the newly created split window
+		vim.api.nvim_win_set_cursor(vim.api.nvim_get_current_win(), location.line)
+	else
+		-- Show an error message if no definition found (optional)
+		vim.notify("No definition found for symbol under cursor.")
+	end
+end, { noremap = true, desc = "Open definition in a new right pane." })
+
 keymap.set("n", "<leader>ef", "<CMD>Oil<CR>", { desc = "Open parent directory (uses oil.nvim)" })
